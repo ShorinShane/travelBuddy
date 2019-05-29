@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Show confirmation window</title>
+    <style>
+        *{
+            text-align: center;
+        }
+        h1{
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <a href="/displayTravel">HOME</a> |
+    <a href="/newTravel">SCHEDULE A NEW TRIP</a> |
+    <a href="/logout">LOGOUT</a><br>
+
+    <h1>{{ travel.destination }}</h1></br>
+    <p>SCHEDULED BY</p>
+    <p>{{ travel.added_by.name }}</p>
+    <br>
+    <p>DESCRIPTION</p> 
+    <p>{{ travel.description }}</p></br>
+    <p>DATE OF DEPARTURE</p> 
+    <p>{{ travel.travelstart }}</p></br>
+    <p>DATE OF RETURN</p>
+    <p>{{ travel.travelend }}</p></br>
+    <p>OTHER USERS JOINING THE TRIP</p><br>
+        {% for join in users_coming_on_trip %}
+            {% if join.user.name != travel.added_by.name %}
+                <p>{{ join.user.name }}</p>
+            {% endif %}
+        {% endfor %}
+
+</body>
+</html>

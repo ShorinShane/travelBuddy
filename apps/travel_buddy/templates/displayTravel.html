@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Travel Homepage</title>
+
+    <style>
+        *{
+            text-align: center;
+        }
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, {{ user.name }}!</h1>
+    <a href="/logout">LOGOUT</a>
+
+    <h2>YOUR TRIP SCHEDULES</h2>
+    <table>
+        
+        <tr>
+            <th>Destination</th>
+            <th>Description</th>
+            <th>Departure Date</th>
+            <th>Date of Return</th>
+            <th>Cancel Scheduled Trip</th>
+        </tr>
+        {% for join in joins %}
+        <tr>
+            <td><a href="/showTravel/{{join.travel.id}}">{{ join.travel.destination }}</a></td>
+            <td>{{ join.travel.description }}</td>
+            <td>{{ join.travel.travelstart }}</td>
+            <td>{{ join.travel.travelend}}</td>
+            {% if request.session.id == join.travel.added_by.id %}
+            <td> <a href="/deleteTravel/{{join.travel.id}}">Delete</a></td> 
+            {% else %}
+            <td> <a href="/leavetrip/{{join.travel.id}}">Leave Trip</a></td> 
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>OTHER USER'S TRAVEL PLANS</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Destination</th>
+            <th>Description</th>
+            <th>Departure Date</th>
+            <th>Date of Return</th>
+            <th>Join a Trip</th>
+        </tr>
+        {% for travel in notComing %}
+        <tr>
+            <td>{{ travel.added_by.name }}</td>
+            <td><a href="/showTravel/{{travel.id}}">{{travel.destination }}</a></td>
+            <td>{{ travel.description }}</td>
+            <td>{{ travel.travelstart }}</td>
+            <td>{{ travel.travelend }}</td>
+            <td> <a href="/jointrip/{{travel.id}}">Join Trip</a></td> 
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/newTravel">ADD A TRAVEL PLAN</a>
+    
+</body>
+</html>
